@@ -1,7 +1,15 @@
+/* global test expect describe */
+/* eslint-disable prefer-arrow-callback */
+
+// First require (e.g., load) our seneca.js module
 const seneca = require('./seneca');
 
+/**
+ * Tests for seneca.isValidEmail()
+ */
+
 describe('seneca.isValidEmail()', () => {
-  test('isValid returns true for simple myseneca address', () => {
+  test('returns true for simple myseneca address', () => {
     const simpleEmail = 'someone@myseneca.ca';
     expect(seneca.isValidEmail(simpleEmail)).toBe(true);
   });
@@ -11,29 +19,29 @@ describe('seneca.isValidEmail()', () => {
     expect(seneca.isValidEmail(gmailAddress)).toBe(false);
   });
 
-  test('returns false for a non-string', () => {
-    const gmailAddress = true;
-    expect(seneca.isValidEmail(gmailAddress)).toBe(false);
+  test('returns false for somethin other than a String', () => {
+    const data = 27;
+    expect(seneca.isValidEmail(data)).toBe(false);
   });
 
-  test('returns false for a null address', () => {
-    const gmailAddress = null;
-    expect(seneca.isValidEmail(gmailAddress)).toBe(false);
+  test('returns false for null', () => {
+    const data = null;
+    expect(seneca.isValidEmail(data)).toBe(false);
   });
 
-  test('returns false for a leading whitespace non-myseneca address', () => {
-    const gmailAddress = ' someone@myseneca.ca';
-    expect(seneca.isValidEmail(gmailAddress)).toBe(false);
+  test('returns false for string with whitespace', () => {
+    const data = 'some one@myseneca.ca';
+    expect(seneca.isValidEmail(data)).toBe(false);
   });
 
-  test('returns true for a prof myseneca address', () => {
-    const gmailAddress = 'someone@senecacollege.ca';
-    expect(seneca.isValidEmail(gmailAddress)).toBe(true);
+  test('returns true for senecacollege.ca address', () => {
+    const simpleEmail = 'someone@senecacollege.ca';
+    expect(seneca.isValidEmail(simpleEmail)).toBe(true);
   });
 
-  test('returns true for old-style myseneca address', () => {
-    const gmailAddress = 'someone@senecac.on.ca';
-    expect(seneca.isValidEmail(gmailAddress)).toBe(true);
+  test('returns true for senecac.on.ca address', () => {
+    const simpleEmail = 'someone@senecac.on.ca';
+    expect(seneca.isValidEmail(simpleEmail)).toBe(true);
   });
 });
 
@@ -46,13 +54,13 @@ describe('seneca.formatSenecaEmail()', () => {
     expect(seneca.formatSenecaEmail(name)).toBe('mshaw@myseneca.ca');
   });
 
-  test('name contains space tabs or other control characters', () => {
-    const name = 'mshaw  ';
+  test('adds @myseneca.ca to the end of name with space', () => {
+    const name = 'm shaw';
     expect(seneca.formatSenecaEmail(name)).toBe('mshaw@myseneca.ca');
   });
 
-  test('name is null', () => {
+  test('adds @myseneca.ca to the end of null', () => {
     const name = null;
-    expect(seneca.formatSenecaEmail(name)).toBe(false);
+    expect(seneca.formatSenecaEmail(name)).toBe('');
   });
 });
