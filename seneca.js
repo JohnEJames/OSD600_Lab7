@@ -1,25 +1,23 @@
-exports.isValidEmail = function (email) {
-  // TODO: needs to be implemented
+exports.isValidEmail = function isValidEmail(email) {
   if (email) {
-    /*
-    pattern taken from here
-    http://jsfiddle.net/ghvj4gy9/embedded/result,js/
-    */
-    const pattern = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    if (pattern.test(email)) {
-      if (email.includes('myseneca.ca') || email.includes('senecacollege.ca') || email.includes('senecac.on.ca')) {
-        return true;
-      }
+    if (email.toString().includes(' ')) {
+      return false;
     }
+    return /@myseneca.ca$/.test(email) || /@senecacollege.ca$/.test(email) || /@senecac.on.ca$/.test(email);
   }
   return false;
 };
 
-
-exports.formatSenecaEmail = function (name) {
+exports.formatSenecaEmail = (function format(name) {
   // TODO: needs to be implemented
   if (name) {
-    return name.replace(' ', '').concat('@myseneca.ca');
+    let test = name.toString();
+    test = test.trim();
+    test = test.replace(' ', '');
+    test = test.replace('@', '');
+    test = test.replace('.', '');
+    test += '@myseneca.ca';
+    return test;
   }
-  return '';
-};
+  return false;
+});
